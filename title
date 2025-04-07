@@ -1,0 +1,133 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nezur Networks</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Orbitron', sans-serif;
+      color: white;
+    }
+
+    .logo {
+      font-size: 48px;
+      background: linear-gradient(90deg, #a64eff, #6e00ff, #a64eff);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientMove 4s linear infinite;
+      text-shadow: 0 0 10px #a64eff, 0 0 20px #6e00ff;
+      position: relative;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .logo::after {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: -10px;
+      right: -10px;
+      bottom: -10px;
+      border: 2px solid rgba(166, 78, 255, 0.3);
+      border-radius: 12px;
+      animation: pulseBorder 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseBorder {
+      0% { box-shadow: 0 0 10px rgba(166, 78, 255, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(166, 78, 255, 0.6); }
+      100% { box-shadow: 0 0 10px rgba(166, 78, 255, 0.3); }
+    }
+
+    .outline-bar {
+      margin-top: 20px;
+      width: 300px;
+      height: 4px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #a64eff, #6e00ff, #a64eff);
+      background-size: 300% 100%;
+      animation: barGlow 3s linear infinite;
+      box-shadow: 0 0 10px #a64eff, 0 0 20px #6e00ff;
+    }
+
+    @keyframes barGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .animated-text {
+      margin-top: 30px;
+      font-size: 20px;
+      color: #a64eff;
+      height: 24px;
+    }
+
+    .battery-widget {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 16px;
+      background: #1a1a1a;
+      padding: 6px 12px;
+      border: 1px solid #6e00ff;
+      border-radius: 10px;
+      color: #a64eff;
+      box-shadow: 0 0 10px #6e00ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="battery-widget" id="batteryWidget">Battery: --%</div>
+  <div class="logo">Nezur Networks</div>
+  <div class="outline-bar"></div>
+  <div class="animated-text" id="animatedText">Browse games</div>
+
+  <script>
+    const phrases = [
+      "Browse games",
+      "Play in school hours",
+      "Browse through fast",
+      "Unblock the fun",
+      "Access anytime",
+      "Zero limits"
+    ];
+
+    let index = 0;
+    const textEl = document.getElementById('animatedText');
+
+    setInterval(() => {
+      textEl.textContent = phrases[index];
+      index = (index + 1) % phrases.length;
+    }, 2000);
+
+    // Battery Widget Script
+    navigator.getBattery().then(battery => {
+      function updateBatteryStatus() {
+        const level = Math.round(battery.level * 100);
+        document.getElementById('batteryWidget').textContent = `Battery: ${level}%`;
+      }
+
+      updateBatteryStatus();
+      battery.addEventListener('levelchange', updateBatteryStatus);
+    });
+  </script>
+</body>
+</html>
+ 
